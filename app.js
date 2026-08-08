@@ -1,29 +1,29 @@
-const path = require('node:path');
+const path = require("node:path");
 
-const {
-  getGymConfig,
-  getVIPSummary,
-} = require('./index');
+const { getGymConfig, getVIPSummary, readMembers, filterVIP } = require("./index");
 
 async function main() {
   const config = getGymConfig();
 
-  console.log('========================================');
+  console.log("========================================");
   console.log(`🏋️  歡迎來到 ${config.gymName}`);
   console.log(`👤 今日管理員：${config.adminName}`);
-  console.log('========================================');
+  console.log("========================================");
 
-  const membersPath = config.defaultMembersPath
-    || path.join(__dirname, 'fixtures', 'members.json');
+  const membersPath = config.defaultMembersPath || path.join(__dirname, "fixtures", "members.json");
 
-  const summary = await getVIPSummary(membersPath);
+  // const summary = await getVIPSummary(membersPath);
 
-  console.log('');
-  console.log('📊 VIP 會員統計');
-  console.log(`   人數：${summary.count}`);
-  console.log(`   總點數：${summary.totalCredits}`);
-  console.log(`   名單：${summary.names.join('、')}`);
-  console.log('');
+  // console.log('');
+  // console.log('📊 VIP 會員統計');
+  // console.log(`   人數：${summary.count}`);
+  // console.log(`   總點數：${summary.totalCredits}`);
+  // console.log(`   名單：${summary.names.join('、')}`);
+  // console.log('');
+
+  const content = await readMembers(membersPath);
+  const result = filterVIP(content);
+  console.log(result);
 }
 
 main();
